@@ -1,5 +1,5 @@
 networks:
-  outside: # put this line in front makes the IP assigned to the container by this virtual NIC rank later
+  outside:
   inside:
     internal: true
 
@@ -223,9 +223,12 @@ services:
       NACOS_ADDR: sduoj-nacos:8848
       ACTIVE: prod
       SERVICE: user
+      # make sure this service is registered via the inside network IP; use 'eth1' because inside NIC will be ordered last
+      JAVA_OPT_EXT: --spring.cloud.nacos.discovery.networkInterface=eth1
     networks:
       inside:
-      outside: # user-service needs to connect to the SMTP server
+      # user-service needs to connect to the SMTP server, so it needs to be connected to the outside network
+      outside:
     deploy:
       resources:
         limits:
