@@ -7,7 +7,7 @@ services:
   # 中间件
   mysql:
     container_name: "${COMPOSE_PROJECT_NAME}_mysql" # specify container name to disable scalability
-    image: mysql:8
+    image: mysql:8.0
     env_file:
       - ./env/mysql/mysql.env
     cap_add:
