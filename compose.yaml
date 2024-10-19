@@ -117,10 +117,14 @@ services:
       NACOS_ADDR: sduoj-nacos:8848
       ACTIVE: prod
       SERVICE: gateway
+    # For development
+    # ports:
+    #   - "8889:8080"
     networks:
       inside:
         aliases:
           - sduoj-gateway
+      # outside:
     deploy:
       resources:
         limits:

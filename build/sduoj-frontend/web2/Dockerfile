@@ -1,11 +1,11 @@
 FROM alpine AS downloader
 
-RUN wget -O /web2.zip https://codeload.github.com/SDUOJ/sduoj-web2/zip/gh-pages \
- && unzip -o -q -d / /web2.zip \
- && mv /sduoj-web* /sduoj-web2 \
+RUN wget -O /frontend.zip https://codeload.github.com/PKU-ASAL/pkuoslab-oj-frontend/zip/gh-pages \
+ && unzip -o -q -d / /frontend.zip \
+ && mv /*gh-pages /app
 
 FROM nginx
 
-COPY --from=downloader /sduoj-web2 /app
+COPY --from=downloader /app /app
 
 EXPOSE 80
