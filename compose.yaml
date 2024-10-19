@@ -6,7 +6,7 @@ networks:
 services:
   # 中间件
   mysql:
-    container_name: "${COMPOSE_PROJECT_NAME}_mysql" # specify container name to disable scalability
+    container_name: "${COMPOSE_PROJECT_NAME}-mysql" # specify container name to disable scalability
     image: mysql:8.0
     env_file:
       - ./env/mysql/mysql.env
@@ -29,7 +29,7 @@ services:
       restart_policy:
         condition: any
   redis:
-    container_name: "${COMPOSE_PROJECT_NAME}_redis" # specify container name to disable scalability
+    container_name: "${COMPOSE_PROJECT_NAME}-redis" # specify container name to disable scalability
     image: redis:alpine
     # 如需暴露端口，取消 ports 和 outside 的注释
     # ports:
@@ -43,7 +43,7 @@ services:
       restart_policy:
         condition: any
   rabbit:
-    container_name: "${COMPOSE_PROJECT_NAME}_rabbit" # specify container name to disable scalability
+    container_name: "${COMPOSE_PROJECT_NAME}-rabbit" # specify container name to disable scalability
     image: rabbitmq:management
     env_file:
       - ./env/rabbitmq/rabbitmq.env
@@ -60,7 +60,7 @@ services:
       restart_policy:
         condition: any
   nacos:
-    container_name: "${COMPOSE_PROJECT_NAME}_nacos" # specify container name to disable scalability
+    container_name: "${COMPOSE_PROJECT_NAME}-nacos" # specify container name to disable scalability
     build:
       context: build/sduoj-nacos/2.1.2
     env_file:
@@ -84,8 +84,7 @@ services:
         condition: any
   # 前端
   frontend:
-    container_name: "${COMPOSE_PROJECT_NAME}_frontend" # specify container name to disable scalability
-    # image: sduoj-frontend-new
+    container_name: "${COMPOSE_PROJECT_NAME}-frontend" # specify container name to disable scalability
     build:
       context: build/sduoj-frontend/web2
     environment:
@@ -109,7 +108,7 @@ services:
         condition: any
   # 后端网关
   gateway:
-    container_name: "${COMPOSE_PROJECT_NAME}_gateway" # specify container name to disable scalability
+    container_name: "${COMPOSE_PROJECT_NAME}-gateway" # specify container name to disable scalability
     image:  registry.cn-beijing.aliyuncs.com/pre-sduoj/sduoj-server
     volumes:
       - ./data/sduoj/logs/:/app/logs/
@@ -222,6 +221,9 @@ services:
   # 评测机
   judger:
     image: registry.cn-beijing.aliyuncs.com/pre-sduoj/sduoj-judger
+    # 如果启动多个judger，日志文件会冲突，需要注释掉下面两行
+    # volumes:
+    #   - ./data/sduoj/logs/:/app/logs/
     environment:
       WAIT_HOSTS: sduoj-nacos:8848,sduoj-rabbit:5672
       NACOS_ADDR: sduoj-nacos:8848
