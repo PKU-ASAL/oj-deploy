@@ -5,6 +5,12 @@ import json
 import requests
 import argparse
 
+DESCRIPTION = """
+Upload public checkpoints for a problem in batch. 
+Note that the input data filename should be `*.in`, the output data filename should be `*.out`, 
+and all input and output file should be matched.
+"""
+
 LOGIN_API = "/api/user/login"
 LOGOUT_API = "/api/user/logout"
 UPLOAD_API = "/api/checkpoint/upload"
@@ -80,7 +86,8 @@ def run(args):
                 out_file = in_file[:-3] + ".out"
                 in_path = os.path.join(root, in_file)
                 out_path = os.path.join(root, out_file)
-                data_files.append([in_path, out_path])
+                if os.path.exists(out_file):
+                    data_files.append([in_path, out_path])
     print(f"Found {len(data_files)} dataset")
 
     chkpoints = []
@@ -104,7 +111,7 @@ def run(args):
     logout(session, args)
 
 def parse_args():
-    parser = argparse.ArgumentParser()
+    parser = argparse.ArgumentParser(description=DESCRIPTION)
     parser.add_argument('--user', required=True, type=str, help='Username')
     parser.add_argument('--passwd', required=True, type=str, help='Password')
     parser.add_argument('--host', default='localhost', type=str, help='OJ Hostname, default is localhost')
