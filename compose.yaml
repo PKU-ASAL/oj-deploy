@@ -150,7 +150,7 @@ services:
       restart_policy:
         condition: on-failure
   filesys-service:
-    image: ghcr.io/nju-compiler/oj-backend
+    image: registry.cn-beijing.aliyuncs.com/pre-sduoj/sduoj-server
     volumes:
       - ./data/sduoj/logs/:/app/logs/
       - ./data/sduoj/filesys/:/app/filesys/
@@ -206,7 +206,7 @@ services:
       restart_policy:
         condition: on-failure
   websocket-service:
-    image: ghcr.io/nju-compiler/oj-backend
+    image: registry.cn-beijing.aliyuncs.com/pre-sduoj/sduoj-server
     volumes:
       - ./data/sduoj/logs/:/app/logs/
     environment:
